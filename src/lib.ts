@@ -1,5 +1,5 @@
 // Change ici le nom affiché en haut du site.
-export const SITE_NAME = 'Les envies de bébé'
+export const SITE_NAME = 'Les envies de Raphaël'
 
 // Thèmes facultatifs des listes.
 export const THEMES = { noel: '🎄 Noël', anniversaire: '🎂 Anniversaire' } as const
