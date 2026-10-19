@@ -194,14 +194,38 @@ textarea { resize: vertical; }
 .badges .theme-badge { margin-bottom: 0; }
 
 /* Thèmes : on redéfinit les couleurs sur <body> (page de liste) ou sur la carte (accueil) */
+/* Thème Noël : boules, guirlande lumineuse, cadres dorés */
 body[data-theme='noel'], .theme-noel {
-  --bg: #e7eeef; --brand: #b3282d; --brand-dark: #861d21; --sun: #e3b04b; --sun-soft: #faedcb; --ink: #25201f;
+  --bg: #fdf1de; --brand: #b3282d; --brand-dark: #861d21; --sun: #e3a93a; --sun-soft: #faedcb; --ink: #2a1a1a; --green: #1f8a4c;
 }
 body[data-theme='noel'] {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.95) 2px, transparent 2.6px), radial-gradient(rgba(255, 255, 255, 0.8) 1.5px, transparent 2px);
-  background-size: 46px 46px, 71px 71px;
-  background-position: 0 0, 23px 31px;
+  background-color: var(--bg);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Cg opacity='.8'%3E%3Cg transform='translate(10 10) scale(0.8)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%23c62828'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23fff' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23fff' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3Cg transform='translate(95 25) scale(0.7)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%231f8a4c'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23fff' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23fff' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3Cg transform='translate(50 85) scale(0.9)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%23f0b429'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23c62828' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23c62828' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3Cg transform='translate(125 100) scale(0.75)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%231e6fd9'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23fff' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23fff' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3Cg transform='translate(5 120) scale(0.6)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%23b8c4cc'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23c62828' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23c62828' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-size: 170px 170px;
 }
+body[data-theme='noel'] .topbar { position: relative; z-index: 3; border-bottom: 4px solid var(--green); }
+body[data-theme='noel'] .topbar::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -26px; height: 22px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='22' viewBox='0 0 120 22'%3E%3Cpath d='M0 2Q15 12 30 2Q45 12 60 2Q75 12 90 2Q105 12 120 2' stroke='%232b4a33' stroke-width='1.8' fill='none'/%3E%3Crect x='12.5' y='6' width='5' height='4' rx='1' fill='%232b4a33'/%3E%3Cellipse cx='15' cy='15' rx='4' ry='5.5' fill='%23c62828'/%3E%3Cellipse cx='13.7' cy='13.2' rx='1.1' ry='1.8' fill='%23fff' opacity='.6'/%3E%3Crect x='42.5' y='6' width='5' height='4' rx='1' fill='%232b4a33'/%3E%3Cellipse cx='45' cy='15' rx='4' ry='5.5' fill='%23f0b429'/%3E%3Cellipse cx='43.7' cy='13.2' rx='1.1' ry='1.8' fill='%23fff' opacity='.6'/%3E%3Crect x='72.5' y='6' width='5' height='4' rx='1' fill='%232b4a33'/%3E%3Cellipse cx='75' cy='15' rx='4' ry='5.5' fill='%231f8a4c'/%3E%3Cellipse cx='73.7' cy='13.2' rx='1.1' ry='1.8' fill='%23fff' opacity='.6'/%3E%3Crect x='102.5' y='6' width='5' height='4' rx='1' fill='%232b4a33'/%3E%3Cellipse cx='105' cy='15' rx='4' ry='5.5' fill='%231e6fd9'/%3E%3Cellipse cx='103.7' cy='13.2' rx='1.1' ry='1.8' fill='%23fff' opacity='.6'/%3E%3C/svg%3E") repeat-x left top;
+}
+body[data-theme='noel'] .page { padding-top: 2.75rem; }
+body[data-theme='noel'] .hero {
+  background: #fff; border: 3px solid var(--brand); border-radius: 26px; padding: 1.5rem 1.75rem;
+  box-shadow: 0 0 0 5px #fff, 0 0 0 8px var(--green); margin: 0.5rem 8px 2.5rem;
+}
+body[data-theme='noel'] .hero h1 { color: var(--brand); }
+body[data-theme='noel'] .section-head h2 {
+  background: #fff; border: 3px solid var(--green); border-radius: 999px; padding: 0.2rem 1.1rem; color: var(--green);
+}
+body[data-theme='noel'] .card { border: 3px solid var(--sun); box-shadow: 0 0 0 3px #fff; }
+body[data-theme='noel'] .card-title h3 { color: var(--brand); }
+body[data-theme='noel'] .empty { background: #fff; display: inline-block; padding: 0.6rem 1rem; border-radius: 12px; }
+body[data-theme='noel'] .foot { background: rgba(255, 255, 255, 0.85); }
+.list-card.theme-noel::after {
+  content: ''; position: absolute; top: 0; right: 16px; width: 44px; height: 56px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='56' viewBox='0 0 40 52'%3E%3Cg transform='translate(0 0) scale(1)'%3E%3Cpath d='M20 0v7' stroke='%238a8a8a' stroke-width='1.6' fill='none'/%3E%3Crect x='14' y='6' width='12' height='8' rx='2' fill='%23f0b429'/%3E%3Ccircle cx='20' cy='33' r='19' fill='%23c62828'/%3E%3Cpath d='M2 30Q20 42 38 30' stroke='%23fff' stroke-width='2.5' fill='none' opacity='.75'/%3E%3Cpath d='M2.5 37Q20 49 37.5 37' stroke='%23fff' stroke-width='1.5' fill='none' opacity='.6'/%3E%3Cellipse cx='13' cy='24' rx='3.5' ry='7' fill='%23fff' opacity='.45' transform='rotate(25 13 24)'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / contain;
+}
+.list-card.theme-noel h2 { padding-right: 3.2rem; }
 body[data-theme='anniversaire'], .theme-anniversaire {
   --bg: #fff6ee; --brand: #7b3fc4; --brand-dark: #5d2d96; --sun: #ff9db1; --sun-soft: #ffe4ea;
 }
