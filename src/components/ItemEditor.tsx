@@ -19,6 +19,7 @@ export default function ItemEditor({ item, categories, onClose, onChanged }: Pro
   const [links, setLinks] = useState(item.links.map((l) => ({ label: l.label, url: l.url })))
   const [busy, setBusy] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
   const [error, setError] = useState('')
 
   async function addFiles(e: ChangeEvent<HTMLInputElement>) {
@@ -29,6 +30,21 @@ export default function ItemEditor({ item, categories, onClose, onChanged }: Pro
     setError('')
     try {
       for (const f of files) await api.upload(item.id, await resizeImage(f))
+      await onChanged()
+    } catch (err) {
+      setError(errorMessage(err))
+    }
+    setUploading(false)
+  }
+
+  async function addUrl() {
+    const url = imageUrl.trim()
+    if (!url) return
+    setUploading(true)
+    setError('')
+    try {
+      await api.post(`/api/admin/items/${item.id}/images/from-url`, { url })
+      setImageUrl('')
       await onChanged()
     } catch (err) {
       setError(errorMessage(err))
@@ -132,6 +148,23 @@ export default function ItemEditor({ item, categories, onClose, onChanged }: Pro
             ))}
           </div>
           <input type="file" accept="image/*" multiple onChange={(e) => void addFiles(e)} disabled={uploading} />
+          <div className="url-row">
+            <input
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  void addUrl()
+                }
+              }}
+              placeholder="…ou colle l’adresse d’une image (https://…)"
+              disabled={uploading}
+            />
+            <button type="button" className="btn small" onClick={() => void addUrl()} disabled={uploading || !imageUrl.trim()}>
+              Ajouter
+            </button>
+          </div>
           {uploading && <small>Envoi en cours…</small>}
         </div>
 

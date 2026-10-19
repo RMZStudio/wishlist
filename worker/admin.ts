@@ -239,6 +239,19 @@ const EXT: Record<string, string> = {
   'image/gif': 'gif',
 }
 
+async function storeImage(c: Context<AppEnv>, itemId: string, data: ArrayBuffer, contentType: string, ext: string) {
+  const fileKey = `items/${itemId}/${uid()}.${ext}`
+  await c.env.IMAGES.put(fileKey, data, { httpMetadata: { contentType } })
+  const id = uid()
+  await c.env.DB.prepare(
+    `INSERT INTO item_images (id, item_id, file_key, position)
+     VALUES (?, ?, ?, (SELECT COALESCE(MAX(position), -1) + 1 FROM item_images WHERE item_id = ?))`,
+  )
+    .bind(id, itemId, fileKey, itemId)
+    .run()
+  return { id, file_key: fileKey }
+}
+
 admin.post('/items/:id/images', async (c) => {
   const itemId = c.req.param('id')
   const db = c.env.DB
@@ -252,17 +265,49 @@ admin.post('/items/:id/images', async (c) => {
   if (!ext) return c.json({ error: 'Format non supporté (JPG, PNG, WebP ou GIF).' }, 400)
   if (file.size > 5 * 1024 * 1024) return c.json({ error: 'Image trop lourde (5 Mo max).' }, 400)
 
-  const fileKey = `items/${itemId}/${uid()}.${ext}`
-  await c.env.IMAGES.put(fileKey, await file.arrayBuffer(), { httpMetadata: { contentType: file.type } })
-  const id = uid()
-  await db
-    .prepare(
-      `INSERT INTO item_images (id, item_id, file_key, position)
-       VALUES (?, ?, ?, (SELECT COALESCE(MAX(position), -1) + 1 FROM item_images WHERE item_id = ?))`,
-    )
-    .bind(id, itemId, fileKey, itemId)
-    .run()
-  return c.json({ id, file_key: fileKey })
+  return c.json(await storeImage(c, itemId, await file.arrayBuffer(), file.type, ext))
+})
+
+// Ajout d'une image à partir de son adresse : le serveur la télécharge et la range dans R2.
+admin.post('/items/:id/images/from-url', async (c) => {
+  const itemId = c.req.param('id')
+  const exists = await c.env.DB.prepare('SELECT id FROM items WHERE id = ?').bind(itemId).first()
+  if (!exists) return c.json({ error: 'Item introuvable.' }, 404)
+
+  const b = await readBody(c)
+  let url: URL
+  try {
+    url = new URL(clean(b.url, 2000))
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') throw new Error('protocole')
+  } catch {
+    return c.json({ error: 'Adresse invalide : elle doit commencer par https://' }, 400)
+  }
+
+  let res: Response
+  try {
+    res = await fetch(url.toString(), {
+      signal: AbortSignal.timeout(10_000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; WishlistBot/1.0)', Accept: 'image/*' },
+    })
+  } catch {
+    return c.json({ error: 'Impossible de joindre cette adresse.' }, 400)
+  }
+  if (!res.ok) {
+    return c.json({ error: `Le site a refusé le téléchargement (code ${res.status}). Enregistre l’image puis envoie-la en fichier.` }, 400)
+  }
+
+  let type = (res.headers.get('content-type') ?? '').split(';')[0].trim().toLowerCase()
+  if (type === 'image/jpg') type = 'image/jpeg'
+  if (!EXT[type]) {
+    const fromPath = url.pathname.toLowerCase().match(/\.(jpe?g|png|webp|gif)$/)?.[1]
+    if (fromPath) type = fromPath === 'png' ? 'image/png' : fromPath === 'webp' ? 'image/webp' : fromPath === 'gif' ? 'image/gif' : 'image/jpeg'
+  }
+  const ext = EXT[type]
+  if (!ext) return c.json({ error: 'Cette adresse ne mène pas à une image (JPG, PNG, WebP ou GIF).' }, 400)
+
+  const data = await res.arrayBuffer()
+  if (data.byteLength > 5 * 1024 * 1024) return c.json({ error: 'Image trop lourde (5 Mo max).' }, 400)
+  return c.json(await storeImage(c, itemId, data, type, ext))
 })
 
 admin.delete('/images/:id', async (c) => {

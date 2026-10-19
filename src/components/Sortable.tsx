@@ -8,7 +8,13 @@ import {
   useSensors,
   type DragEndEvent,
 } from '@dnd-kit/core'
-import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 function Row({ id, render }: { id: string; render: (handle: object) => ReactNode }) {
@@ -32,11 +38,12 @@ function Row({ id, render }: { id: string; render: (handle: object) => ReactNode
 interface Props<T extends { id: string }> {
   items: T[]
   onReorder: (next: T[]) => void
+  grid?: boolean
   children: (item: T, handle: object) => ReactNode
 }
 
 // Liste verticale réordonnable. `handle` est à étaler sur le bouton de poignée.
-export default function Sortable<T extends { id: string }>({ items, onReorder, children }: Props<T>) {
+export default function Sortable<T extends { id: string }>({ items, onReorder, grid, children }: Props<T>) {
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 6 } }),
@@ -53,10 +60,12 @@ export default function Sortable<T extends { id: string }>({ items, onReorder, c
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-      <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
-        {items.map((it) => (
-          <Row key={it.id} id={it.id} render={(handle) => children(it, handle)} />
-        ))}
+      <SortableContext items={items.map((i) => i.id)} strategy={grid ? rectSortingStrategy : verticalListSortingStrategy}>
+        <div className={grid ? 'grid' : undefined}>
+          {items.map((it) => (
+            <Row key={it.id} id={it.id} render={(handle) => children(it, handle)} />
+          ))}
+        </div>
       </SortableContext>
     </DndContext>
   )

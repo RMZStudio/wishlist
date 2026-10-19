@@ -132,7 +132,7 @@ export default function ListPage() {
   const renderItems = (items: Item[], categoryId: string | null): ReactNode => (
     <>
       {editMode ? (
-        <Sortable items={items} onReorder={reorderItems}>
+        <Sortable grid items={items} onReorder={reorderItems}>
           {(it, handle) => (
             <ItemCard
               item={it}
