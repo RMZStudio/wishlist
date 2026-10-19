@@ -1,0 +1,6 @@
+Dépose ici l'image de fond de ton thème, par exemple : noel-photo.jpg
+
+- Format paysage, 1600 à 2000 px de large.
+- Poids conseillé : moins de 500 Ko (jusqu'à 1 Mo maximum). Compresse-la sur squoosh.app si besoin.
+- Le nom du fichier doit correspondre exactement (majuscules comprises) à celui écrit
+  dans src/themes/noel-photo.css, ligne "--fond-image".

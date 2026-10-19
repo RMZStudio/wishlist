@@ -47,7 +47,7 @@ admin.patch('/lists/:id', async (c) => {
   }
   if (typeof b.description === 'string') f.description = b.description.slice(0, 2000)
   if (typeof b.is_public === 'boolean') f.is_public = b.is_public ? 1 : 0
-  if ('theme' in b) f.theme = b.theme === 'noel' || b.theme === 'anniversaire' ? b.theme : null
+       if ('theme' in b) f.theme = typeof b.theme === 'string' && /^[a-z0-9-]{1,30}$/.test(b.theme) ? b.theme : null
   if (typeof b.slug === 'string' && b.slug.trim()) f.slug = await uniqueSlug(c.env.DB, b.slug, id)
   await patchRow(c.env.DB, 'lists', id, f)
   const row = await c.env.DB.prepare('SELECT slug FROM lists WHERE id = ?').bind(id).first<{ slug: string }>()

@@ -2,7 +2,7 @@
 export const SITE_NAME = 'Les envies de Raphaël'
 
 // Thèmes facultatifs des listes.
-export const THEMES = { noel: '🎄 Noël', anniversaire: '🎂 Anniversaire' } as const
+export const THEMES = { noel: '🎄 Noël', anniversaire: '🎂 Anniversaire', 'noel-photo': '🎅 Noël Bis'} as const
 export type ThemeKey = keyof typeof THEMES
 
 const euro = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })

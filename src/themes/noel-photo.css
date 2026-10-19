@@ -1,0 +1,126 @@
+/* ============================================================================
+   Thème « noel-photo » : fond = ton image personnelle.
+
+   Pour créer un AUTRE thème : copie ce fichier, remplace partout « noel-photo »
+   par le nouveau nom (Ctrl+H dans VS Code), puis suis LISEZ-MOI-THEME.md.
+   ============================================================================ */
+
+/* ---- 1) RÉGLAGES : change simplement les valeurs ci-dessous ---------------- */
+body[data-theme='noel-photo'],
+.theme-noel-photo {
+  --fond-image: url('/themes/noel-photo.jpg'); /* ton image, rangée dans public/themes/ */
+  --fond-voile: rgba(255, 255, 255, 0.25); /* voile posé sur l'image : 0 = aucun, 0.6 = très pâle */
+
+  --bg: #f4eee6; /* couleur de secours si l'image ne charge pas */
+  --ink: #22201e; /* couleur du texte */
+  --muted: #6b625c; /* texte secondaire */
+  --line: #e2d8cc; /* fines bordures */
+
+  --brand: #9c1f2b; /* boutons principaux, bordures du titre, liens */
+  --brand-dark: #741620; /* boutons principaux au survol */
+  --brand-texte: #ffffff; /* texte écrit sur les boutons principaux */
+  --sun: #d4a24c; /* accents : ruban « Réservé », badges, cadre des cartes */
+  --sun-soft: #f7ecd2; /* fonds doux : survol des boutons, encadré de réservation */
+  --vert: #2f6b4f; /* second accent : pastilles de catégories, double cadre */
+
+  --panneau: rgba(255, 255, 255, 0.94); /* fond des panneaux posés sur l'image (lisibilité) */
+  --rayon-carte: 20px; /* arrondi des cartes d'items */
+  --rayon-bouton: 999px; /* 999px = boutons en pilule, 8px = presque carrés */
+
+  /* Police des titres (facultatif) : décommente et choisis une police.
+     Pour une police Google Fonts, ajoute aussi son lien dans index.html. */
+  /* --font-display: 'Mountains of Christmas', 'Bricolage Grotesque', serif; */
+}
+
+/* ---- 2) FOND : l'image reste fixe derrière le contenu ---------------------- */
+body[data-theme='noel-photo'] {
+  background-color: var(--bg);
+}
+body[data-theme='noel-photo']::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(var(--fond-voile), var(--fond-voile)), var(--fond-image) center / cover no-repeat;
+}
+
+/* ---- 3) BARRE DU HAUT, TITRE, SECTIONS ------------------------------------- */
+body[data-theme='noel-photo'] .topbar {
+  background: var(--panneau);
+  border-bottom: 4px solid var(--brand);
+}
+body[data-theme='noel-photo'] .hero {
+  background: var(--panneau);
+  border: 3px solid var(--brand);
+  border-radius: 26px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 0 0 5px #fff, 0 0 0 8px var(--vert);
+  margin: 0.5rem 8px 2.5rem;
+}
+body[data-theme='noel-photo'] .hero h1 {
+  color: var(--brand);
+}
+body[data-theme='noel-photo'] .section-head h2 {
+  background: var(--panneau);
+  border: 3px solid var(--vert);
+  border-radius: 999px;
+  padding: 0.2rem 1.1rem;
+  color: var(--vert);
+}
+body[data-theme='noel-photo'] .empty {
+  background: var(--panneau);
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+}
+body[data-theme='noel-photo'] .foot {
+  background: var(--panneau);
+}
+
+/* ---- 4) CARTES D'ITEMS ----------------------------------------------------- */
+body[data-theme='noel-photo'] .card {
+  background: #fff;
+  border: 3px solid var(--sun);
+  border-radius: var(--rayon-carte);
+  box-shadow: 0 0 0 3px #fff;
+}
+body[data-theme='noel-photo'] .card-title h3 {
+  color: var(--brand);
+}
+
+/* ---- 5) BOUTONS ------------------------------------------------------------ */
+body[data-theme='noel-photo'] .btn {
+  border-radius: var(--rayon-bouton);
+  background: var(--panneau);
+}
+body[data-theme='noel-photo'] .btn:hover {
+  background: var(--sun-soft);
+}
+body[data-theme='noel-photo'] .btn.primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-texte);
+}
+body[data-theme='noel-photo'] .btn.primary:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+body[data-theme='noel-photo'] .btn.ghost {
+  background: var(--panneau);
+  border-color: var(--line);
+}
+body[data-theme='noel-photo'] .btn.ok {
+  background: var(--sun-soft);
+  border-color: var(--vert);
+  color: var(--vert);
+}
+body[data-theme='noel-photo'] .linklike {
+  color: var(--brand-dark);
+}
+
+/* ---- 6) CARTE DE LA LISTE SUR LA PAGE D'ACCUEIL ---------------------------- */
+.list-card.theme-noel-photo {
+  border-color: var(--brand);
+  box-shadow: 6px 6px 0 var(--sun);
+  background: linear-gradient(rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.86)), var(--fond-image) center / cover no-repeat;
+}
