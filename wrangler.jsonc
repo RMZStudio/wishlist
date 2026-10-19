@@ -1,0 +1,26 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "wishlist",
+	"main": "worker/index.ts",
+	"compatibility_date": "2026-06-01",
+	"assets": {
+		"not_found_handling": "single-page-application",
+		"run_worker_first": [
+			"/api/*",
+			"/img/*"
+		]
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "wishlist",
+			"database_id": "454e5ab8-8550-4ac8-90c3-8ccde5106ebe"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "IMAGES",
+			"bucket_name": "wishlist-images"
+		}
+	]
+}
