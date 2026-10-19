@@ -1,9 +1,12 @@
+import type { ThemeKey } from './lib'
+
 export interface ListSummary {
   id: string
   slug: string
   title: string
   description: string
   is_public: boolean
+  theme: ThemeKey | null
   item_count: number
   reserved_count: number
 }
@@ -49,6 +52,7 @@ export interface WishList {
   title: string
   description: string
   is_public: boolean
+  theme: ThemeKey | null
   categories: Category[]
   items: Item[]
 }

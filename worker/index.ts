@@ -77,6 +77,7 @@ type ListRow = {
   title: string
   description: string
   is_public: number
+  theme: string | null
   item_count: number
   reserved_count: number
 }
@@ -84,7 +85,7 @@ type ListRow = {
 app.get('/api/lists', async (c) => {
   const where = c.get('isAdmin') ? '' : 'WHERE l.is_public = 1'
   const { results } = await c.env.DB.prepare(
-    `SELECT l.id, l.slug, l.title, l.description, l.is_public,
+    `SELECT l.id, l.slug, l.title, l.description, l.is_public, l.theme,
        (SELECT COUNT(*) FROM items i WHERE i.list_id = l.id) AS item_count,
        (SELECT COUNT(*) FROM items i JOIN reservations r ON r.item_id = i.id WHERE i.list_id = l.id) AS reserved_count
      FROM lists l ${where}
@@ -126,9 +127,16 @@ app.get('/api/lists/:slug', async (c) => {
   const isAdmin = c.get('isAdmin')
   const db = c.env.DB
   const list = await db
-    .prepare('SELECT id, slug, title, description, is_public FROM lists WHERE slug = ?')
+    .prepare('SELECT id, slug, title, description, is_public, theme FROM lists WHERE slug = ?')
     .bind(c.req.param('slug'))
-    .first<{ id: string; slug: string; title: string; description: string; is_public: number }>()
+    .first<{
+      id: string
+      slug: string
+      title: string
+      description: string
+      is_public: number
+      theme: string | null
+    }>()
   if (!list) return c.json({ error: 'Liste introuvable.' }, 404)
   if (!list.is_public && !isAdmin) return c.json({ error: 'private' }, 401)
 
@@ -165,6 +173,7 @@ app.get('/api/lists/:slug', async (c) => {
     title: list.title,
     description: list.description,
     is_public: !!list.is_public,
+    theme: list.theme,
     categories: cats.results,
     items: (items.results as ItemRow[]).map((it) => {
       const r = resaMap.get(it.id)

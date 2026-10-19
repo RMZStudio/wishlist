@@ -185,6 +185,31 @@ textarea { resize: vertical; }
 .tag.reserve { background: var(--ok-soft); color: var(--brand-dark); }
 .tag.cancel, .tag.admin_cancel { background: #f8e4de; color: var(--danger); }
 
+/* Mot de passe visible */
+.pw-row { display: flex; gap: 0.5rem; align-items: center; }
+.badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.theme-badge { background: var(--sun); display: inline-block; margin-bottom: 0.6rem; }
+.badges .theme-badge { margin-bottom: 0; }
+
+/* Thèmes : on redéfinit les couleurs sur <body> (page de liste) ou sur la carte (accueil) */
+body[data-theme='noel'], .theme-noel {
+  --bg: #e7eeef; --brand: #b3282d; --brand-dark: #861d21; --sun: #e3b04b; --sun-soft: #faedcb; --ink: #25201f;
+}
+body[data-theme='noel'] {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.95) 2px, transparent 2.6px), radial-gradient(rgba(255, 255, 255, 0.8) 1.5px, transparent 2px);
+  background-size: 46px 46px, 71px 71px;
+  background-position: 0 0, 23px 31px;
+}
+body[data-theme='anniversaire'], .theme-anniversaire {
+  --bg: #fff6ee; --brand: #7b3fc4; --brand-dark: #5d2d96; --sun: #ff9db1; --sun-soft: #ffe4ea;
+}
+body[data-theme='anniversaire'] {
+  background-image: radial-gradient(rgba(255, 141, 166, 0.55) 3px, transparent 3.5px), radial-gradient(rgba(87, 193, 255, 0.5) 2.5px, transparent 3px), radial-gradient(rgba(255, 211, 77, 0.6) 3px, transparent 3.5px);
+  background-size: 97px 97px, 131px 131px, 73px 73px;
+  background-position: 0 0, 41px 62px, 19px 33px;
+}
+.list-card.theme-noel, .list-card.theme-anniversaire { border-color: var(--brand); }
+
 @media (max-width: 560px) {
   .row2, .link-row { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; }

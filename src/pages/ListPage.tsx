@@ -6,6 +6,7 @@ import ItemCard from '../components/ItemCard'
 import ItemEditor from '../components/ItemEditor'
 import Modal from '../components/Modal'
 import Sortable from '../components/Sortable'
+import { THEMES, type ThemeKey } from '../lib'
 import type { Category, Item, WishList } from '../types'
 
 type Status = 'loading' | 'ok' | 'private' | 'missing' | 'error'
@@ -34,6 +35,15 @@ export default function ListPage() {
   useEffect(() => {
     if (ready) void load()
   }, [ready, admin, load])
+
+  const theme = data?.theme ?? null
+  useEffect(() => {
+    if (theme) document.body.dataset.theme = theme
+    else delete document.body.dataset.theme
+    return () => {
+      delete document.body.dataset.theme
+    }
+  }, [theme])
 
   async function run(fn: () => Promise<unknown>) {
     try {
@@ -184,6 +194,7 @@ export default function ListPage() {
   return (
     <>
       <section className="hero">
+        {list.theme && <span className="badge theme-badge">{THEMES[list.theme]}</span>}
         <h1>{list.title}</h1>
         {list.description && <p>{list.description}</p>}
         <p className="muted">
@@ -284,6 +295,7 @@ function ListSettings({
   const [slug, setSlug] = useState(list.slug)
   const [description, setDescription] = useState(list.description)
   const [isPublic, setIsPublic] = useState(list.is_public)
+  const [theme, setTheme] = useState<ThemeKey | ''>(list.theme ?? '')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -297,6 +309,7 @@ function ListSettings({
         slug,
         description,
         is_public: isPublic,
+        theme: theme || null,
       })
       await onSaved(r.slug)
     } catch (err) {
@@ -330,6 +343,17 @@ function ListSettings({
         <label className="field">
           <span>Description</span>
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3} />
+        </label>
+        <label className="field">
+          <span>Thème (facultatif)</span>
+          <select value={theme} onChange={(e) => setTheme(e.target.value as ThemeKey | '')}>
+            <option value="">Aucun</option>
+            {(Object.keys(THEMES) as ThemeKey[]).map((k) => (
+              <option key={k} value={k}>
+                {THEMES[k]}
+              </option>
+            ))}
+          </select>
         </label>
         <label className="check">
           <input type="checkbox" checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)} />

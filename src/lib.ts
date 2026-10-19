@@ -1,6 +1,10 @@
 // Change ici le nom affiché en haut du site.
 export const SITE_NAME = 'Les envies de bébé'
 
+// Thèmes facultatifs des listes.
+export const THEMES = { noel: '🎄 Noël', anniversaire: '🎂 Anniversaire' } as const
+export type ThemeKey = keyof typeof THEMES
+
 const euro = new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' })
 export const formatPrice = (n: number) => euro.format(n)
 

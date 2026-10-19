@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { api, errorMessage } from '../api'
 import { useAuth } from '../auth'
 import Sortable from '../components/Sortable'
+import { THEMES } from '../lib'
 import type { ListSummary } from '../types'
 
 function Counts({ l }: { l: ListSummary }) {
@@ -74,11 +75,14 @@ export default function Home() {
       {lists && !editMode && (
         <div className="list-grid">
           {lists.map((l) => (
-            <Link key={l.id} to={`/${l.slug}`} className="list-card">
+            <Link key={l.id} to={`/${l.slug}`} className={'list-card' + (l.theme ? ` theme-${l.theme}` : '')}>
               <h2>{l.title}</h2>
               {l.description && <p>{l.description}</p>}
               <Counts l={l} />
-              {!l.is_public && <span className="badge">Privée</span>}
+              <span className="badges">
+                {l.theme && <span className="badge theme-badge">{THEMES[l.theme]}</span>}
+                {!l.is_public && <span className="badge">Privée</span>}
+              </span>
             </Link>
           ))}
         </div>
