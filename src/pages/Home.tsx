@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { api, errorMessage } from '../api'
 import { useAuth } from '../auth'
 import Sortable from '../components/Sortable'
-import { THEMES } from '../lib'
 import type { ListSummary } from '../types'
 
 function Counts({ l }: { l: ListSummary }) {
