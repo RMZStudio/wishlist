@@ -80,7 +80,6 @@ export default function Home() {
               {l.description && <p>{l.description}</p>}
               <Counts l={l} />
               <span className="badges">
-                {l.theme && <span className="badge theme-badge">{THEMES[l.theme]}</span>}
                 {!l.is_public && <span className="badge">Privée</span>}
               </span>
             </Link>
