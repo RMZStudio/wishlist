@@ -111,8 +111,8 @@ img { max-width: 100%; display: block; }
 
 /* Carte d'item */
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; }
-.media { position: relative; background: #e8efec; overflow: hidden; }
-.media > img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.media { position: relative; background: #fff; overflow: hidden; }
+.media > img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; }
 .noimg { aspect-ratio: 4 / 3; display: grid; place-items: center; color: var(--muted); font-size: 0.9rem; }
 .is-reserved .media > img { filter: saturate(0.45); opacity: 0.85; }
 .ribbon {
@@ -167,7 +167,7 @@ textarea { resize: vertical; }
 .link-row { display: grid; grid-template-columns: 1fr 2fr auto; gap: 0.5rem; margin-bottom: 0.5rem; align-items: center; }
 .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.6rem; margin-bottom: 0.5rem; }
 .img-tile { display: flex; flex-direction: column; gap: 0.25rem; }
-.img-tile img { aspect-ratio: 1; object-fit: cover; border-radius: 10px; }
+.img-tile img { aspect-ratio: 1; object-fit: contain; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
 .img-tile div { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
 /* Fenêtres modales */
